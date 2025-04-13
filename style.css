@@ -702,5 +702,20 @@ input[readonly].error {
   font-weight: bold;
   cursor: pointer;
 }
+@media (max-width: 600px) {
+  .collapsible-content img {
+    width: 100%;
+    height: auto;
+  }
+
+  .site-title {
+    font-size: 1.4rem;
+    text-align: center;
+  }
+
+  .logo {
+    height: 50px;
+  }
+}
 
 
