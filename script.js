@@ -534,3 +534,13 @@ document.addEventListener('click', (e) => {
   }
 });
 });
+function openImageModal(src) {
+  const modal = document.getElementById("imageModal");
+  const modalImg = document.getElementById("modalImage");
+  modal.style.display = "block";
+  modalImg.src = src;
+}
+
+function closeImageModal() {
+  document.getElementById("imageModal").style.display = "none";
+}
