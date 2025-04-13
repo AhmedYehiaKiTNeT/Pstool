@@ -82,7 +82,7 @@
       <div class="collapsible-container">
         <button class="collapsible-btn" onclick="togglePasiImage()">📷 View Scoring Guide</button>
         <div class="collapsible-content" id="pasiImageContainer">
-          <img src="Scoring_Guide.jpg" alt="PASI Scoring Guide" />
+         <img src="Scoring_Guide.jpg" alt="PASI Scoring Guide" class="zoomable" onclick="openImageModal(this.src)" />
           <p class="pasi-guide-caption">Visual reference for scoring Erythema, Induration, and Scaling</p>
         </div>
       </div>
@@ -494,5 +494,10 @@
     </section>
   </main>
   <script src="script.js"></script>
+  <!-- Image Modal for Zoom -->
+<div id="imageModal" class="image-modal" onclick="closeImageModal()">
+  <span class="close">&times;</span>
+  <img class="image-modal-content" id="modalImage">
+</div>
 </body>
 </html>
