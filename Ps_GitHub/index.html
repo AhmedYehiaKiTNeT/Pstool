@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Psoriasis Digital Assessment Tool</title>
+  <!-- Updated stylesheet reference to match the file name -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="container">
+    <header class="site-header">
+      <div class="logo-container">
+        <a href="javascript:window.location.reload()">
+          <img src="logo.png" alt="Logo" class="logo">
+        </a>
+      </div>
+      <h1 class="site-title">Psoriasis Digital Assessment Tool</h1>
+    </header>
+    
+    <div class="progress-container" aria-hidden="true">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- Step 1: Patient Information -->
+    <section id="step1" class="section active" aria-labelledby="step1-heading">
+      <h2 id="step1-heading">Step 1: Patient Information</h2>
+      <div class="form-grid">
+        <div class="form-column">
+          <div class="form-group">
+            <label for="patientNumber">Patient Name/ID</label>
+            <input type="text" id="patientNumber"/>
+          </div>
+          <div class="form-group">
+            <label for="gender" class="required">Gender</label>
+            <select id="gender" required>
+              <option value="">Select</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
+          </div>
+          <div class="form-group" id="pregnancyField" style="display: none;">
+            <label for="pregnancy">Pregnancy Status</label>
+            <select id="pregnancy">
+              <option value="Not applicable">Not applicable</option>
+              <option value="Not pregnant">Not pregnant</option>
+              <option value="First trimester">pregnant</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-column">
+          <div class="form-group">
+            <label for="age">Age (years)</label>
+            <input type="number" id="age" min="1" max="120"/>
+          </div>
+          <div class="form-group">
+            <label>Psoriasis Onset</label>
+            <div class="onset-input">
+              <input type="number" id="onsetValue" min="0"/>
+              <select id="onsetUnit">
+                <option value="years">years</option>
+                <option value="months">months</option>
+              </select>
+            </div>
+            <!-- Error message will be inserted here dynamically -->
+          </div>
+          <div class="form-group">
+            <label>Age at Onset</label>
+            <input type="text" id="onsetAge" readonly />
+          </div>
+        </div>
+      </div>
+      <div class="navigation" style="justify-content: flex-end;">
+  <button class="nav-btn right" id="nextBtn1">Next</button>
+</div>
+
+    </section>
+
+    <!-- Step 2: PASI and BSA Assessment -->
+    <section id="step2" class="section" aria-labelledby="step2-heading">
+      <h2 id="step2-heading">Step 2: PASI and BSA Assessment</h2>
+      <div class="collapsible-container">
+        <button class="collapsible-btn" onclick="togglePasiImage()">📷 View Scoring Guide</button>
+        <div class="collapsible-content" id="pasiImageContainer">
+          <img src="Scoring Guide.jpg" alt="PASI Scoring Guide" />
+          <p class="pasi-guide-caption">Visual reference for scoring Erythema, Induration, and Scaling</p>
+        </div>
+      </div>
+      <div class="assessment-grid">
+        <!-- Head Region -->
+        <div class="assessment-region">
+          <h3>Head</h3>
+          <div class="form-group">
+            <label for="head_area_category" class="required">Site Affected %</label>
+            <select id="head_area_category" required>
+              <option value="0">0%</option>
+              <option value="1">1–9%</option>
+              <option value="2">10–29%</option>
+              <option value="3">30–49%</option>
+              <option value="4">50–69%</option>
+              <option value="5">70–89%</option>
+              <option value="6">90–100%</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="head_erythema" class="required">Erythema</label>
+            <select id="head_erythema" required>
+              <option value=""></option>
+              <option value="0">0: Absent</option>
+              <option value="1">1: Mild</option>
+              <option value="2">2: Moderate</option>
+              <option value="3">3: Severe</option>
+              <option value="4">4: Very Severe</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="head_induration" class="required">Induration</label>
+            <select id="head_induration" required>
+              <option value=""></option>
+              <option value="0">0: Absent</option>
+              <option value="1">1: Mild</option>
+              <option value="2">2: Moderate</option>
+              <option value="3">3: Severe</option>
+              <option value="4">4: Very Severe</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="head_scaling" class="required">Scaling</label>
+            <select id="head_scaling" required>
+              <option value=""></ption>
+              <option value="0">0: Absent</option>
+              <option value="1">1: Mild</option>
+              <option value="2">2: Moderate</option>
+              <option value="3">3: Severe</option>
+              <option value="4">4: Very Severe</option>
+            </select>
+          </div>
+        </div>
+        <!-- Upper Limbs Region -->
+        <div class="assessment-region">
+          <h3>Upper Limbs</h3>
+          <div class="form-group">
+            <label for="upper_area_category" class="required">Site Affected %</label>
+            <select id="upper_area_category" required>
+              <option value="0">0%</option>
+              <option value="1">1–9%</option>
+              <option value="2">10–29%</option>
+              <option value="3">30–49%</option>
+              <option value="4">50–69%</option>
+              <option value="5">70–89%</option>
+              <option value="6">90–100%</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="upper_erythema" class="required">Erythema</label>
+            <select id="upper_erythema" required>
+              <option value=""></option>
+              <option value="0">0: Absent</option>
+              <option value="1">1: Mild</option>
+              <option value="2">2: Moderate</option>
+              <option value="3">3: Severe</option>
+              <option value="4">4: Very Severe</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="upper_induration" class="required">Induration</label>
+            <select id="upper_induration" required>
+              <option value=""></option>
+              <option value="0">0: Absent</option>
+              <option value="1">1: Mild</option>
+              <option value="2">2: Moderate</option>
+              <option value="3">3: Severe</option>
+              <option value="4">4: Very Severe</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="upper_scaling" class="required">Scaling</label>
+            <select id="upper_scaling" required>
+              <option value=""></option>
+              <option value="0">0: Absent</option>
+              <option value="1">1: Mild</option>
+              <option value="2">2: Moderate</option>
+              <option value="3">3: Severe</option>
+              <option value="4">4: Very Severe</option>
+            </select>
+          </div>
+        </div>
+        <!-- Trunk Region -->
+        <div class="assessment-region">
+          <h3>Trunk</h3>
+          <div class="form-group">
+            <label for="trunk_area_category" class="required">Site Affected %</label>
+            <select id="trunk_area_category" required>
+              <option value="0">0%</option>
+              <option value="1">1–9%</option>
+              <option value="2">10–29%</option>
+              <option value="3">30–49%</option>
+              <option value="4">50–69%</option>
+              <option value="5">70–89%</option>
+              <option value="6">90–100%</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="trunk_erythema" class="required">Erythema</label>
+            <select id="trunk_erythema" required>
+              <option value=""></option>
+              <option value="0">0: Absent</option>
+              <option value="1">1: Mild</option>
+              <option value="2">2: Moderate</option>
+              <option value="3">3: Severe</option>
+              <option value="4">4: Very Severe</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="trunk_induration" class="required">Induration</label>
+            <select id="trunk_induration" required>
+              <option value=""></option>
+              <option value="0">0: Absent</option>
+              <option value="1">1: Mild</option>
+              <option value="2">2: Moderate</option>
+              <option value="3">3: Severe</option>
+              <option value="4">4: Very Severe</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="trunk_scaling" class="required">Scaling</label>
+            <select id="trunk_scaling" required>
+              <option value=""></ption>
+              <option value="0">0: Absent</option>
+              <option value="1">1: Mild</option>
+              <option value="2">2: Moderate</option>
+              <option value="3">3: Severe</option>
+              <option value="4">4: Very Severe</option>
+            </select>
+          </div>
+        </div>
+        <!-- Lower Limbs Region -->
+        <div class="assessment-region">
+          <h3>Lower Limbs</h3>
+          <div class="form-group">
+            <label for="lower_area_category" class="required">Site Affected %</label>
+            <select id="lower_area_category" required>
+              <option value="0">0%</option>
+              <option value="1">1–9%</option>
+              <option value="2">10–29%</option>
+              <option value="3">30–49%</option>
+              <option value="4">50–69%</option>
+              <option value="5">70–89%</option>
+              <option value="6">90–100%</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="lower_erythema" class="required">Erythema</label>
+            <select id="lower_erythema" required>
+              <option value=""></option>
+              <option value="0">0: Absent</option>
+              <option value="1">1: Mild</option>
+              <option value="2">2: Moderate</option>
+              <option value="3">3: Severe</option>
+              <option value="4">4: Very Severe</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="lower_induration" class="required">Induration</label>
+            <select id="lower_induration" required>
+              <option value=""></option>
+              <option value="0">0: Absent</option>
+              <option value="1">1: Mild</option>
+              <option value="2">2: Moderate</option>
+              <option value="3">3: Severe</option>
+              <option value="4">4: Very Severe</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="lower_scaling" class="required">Scaling</label>
+            <select id="lower_scaling" required>
+              <option value=""></option>
+              <option value="0">0: Absent</option>
+              <option value="1">1: Mild</option>
+              <option value="2">2: Moderate</option>
+              <option value="3">3: Severe</option>
+              <option value="4">4: Very Severe</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <button class="action-btn" id="calculatePasiBtn">Calculate PASI &amp; BSA</button>
+      <div class="result-container">
+        <div id="pasiResult" class="result-box">PASI: Not calculated</div>
+        <div id="bsaResult" class="result-box">BSA: Not calculated</div>
+      </div>
+      <div class="navigation">
+        <button class="nav-btn" id="prevBtn2">Previous</button>
+        <button class="nav-btn right" id="nextBtn2">Next</button>
+      </div>
+    </section>
+
+    <!-- Step 3: PEST Criteria -->
+    <section id="step3" class="section" aria-labelledby="step3-heading">
+      <h2 id="step3-heading">Step 3: PEST Criteria</h2>
+      <p class="section-description">Assess psoriatic arthritis risk.</p>
+      <div class="language-toggle">
+        <button id="pestEnglish" class="lang-btn active">
+          <span class="lang-flag"></span>
+          <span>English</span>
+        </button>
+        <button id="pestArabic" class="lang-btn">
+          <span class="lang-flag"></span>
+          <span>العربية</span>
+        </button>
+      </div>
+      <div id="pestQuestions" class="pest-questions"></div>
+      <button class="action-btn" id="calculatePestBtn">Calculate PEST Score</button>
+      <div id="pestResult" class="result-box">PEST: Not calculated</div>
+      <div class="navigation">
+        <button class="nav-btn" id="prevBtn3">Previous</button>
+        <button class="nav-btn right" id="nextBtn3">Next</button>
+      </div>
+    </section>
+
+    <!-- Step 4: DLQI -->
+<section id="step4" class="section" aria-labelledby="step4-heading">
+  <h2 id="step4-heading">Step 4: DLQI (Patient Self-Assessment)</h2>
+  <div class="dlqi-container">
+    <p>Share the DLQI form with the patient:</p>
+
+    <!-- زر لفتح الرابط -->
+    <button class="action-btn" onclick="openDLQIForm()">Open DLQI Form</button>
+
+    <!-- زر نسخ الرابط -->
+    <button class="action-btn" onclick="copyDLQILink()">Copy DLQI Link</button>
+    <p id="linkCopiedMessage" style="display: none; color: green;">✅ Link copied. Paste it into WhatsApp/SMS.</p>
+
+    <!-- إدخال النتيجة -->
+    <div class="form-group">
+      <label for="dlqi">DLQI Total Score (0-30)</label>
+      <input type="number" id="dlqi" min="0" max="30"/>
+    </div>
+  </div>
+
+  <div class="navigation">
+    <button class="nav-btn" id="prevBtn4">Previous</button>
+    <button class="nav-btn right" id="nextBtn4">Next</button>
+  </div>
+</section>
+
+<!-- Step 5: Comorbidities and Metabolic Syndrome Screening -->
+<!-- Step 5: Comorbidities and Metabolic Syndrome Screening -->
+<section id="step5" class="section" aria-labelledby="step5-heading">
+  <h2 id="step5-heading">Step 5: Comorbidities &amp; Metabolic Syndrome Screening</h2>
+
+  <div class="form-grid">
+    <div class="form-column">
+      <h3>Comorbidities</h3>
+      <div class="form-group">
+        <label for="dm">Diabetes Mellitus (DM)</label>
+        <select id="dm">
+          <option value="No">No</option>
+          <option value="Yes">Yes</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="htn">Hypertension (HTN)</label>
+        <select id="htn">
+          <option value="No">No</option>
+          <option value="Yes">Yes</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="cvd">Cardiovascular Disease (CVD)</label>
+        <select id="cvd">
+          <option value="No">No</option>
+          <option value="Yes">Yes</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="otherComorbidities">Others</label>
+        <input type="text" id="otherComorbidities" placeholder="Specify if any" />
+      </div>
+    </div>
+
+    <div class="form-column">
+      <h3>Metabolic Syndrome Screening</h3>
+      <p class="section-description">Based on NCEP ATP III / AHA-NHLBI 2005 Criteria<br>Requires &ge;3 out of 5 criteria</p>
+
+      <div class="measurement-toggle">
+        <div class="toggle-option selected" id="useWaistOption">
+          <input type="radio" id="useWaist" name="measurement" checked />
+          <label for="useWaist">Use Waist</label>
+        </div>
+        <div class="toggle-option" id="useBMIOption">
+          <input type="radio" id="useBMI" name="measurement" />
+          <label for="useBMI">Use BMI</label>
+        </div>
+      </div>
+
+      <div class="form-group" id="waistField">
+        <label for="waist">Waist Circumference (cm) <span class="normal-range">(N:&lt;102 ♂, &lt;88 ♀)</span></label>
+        <input type="number" id="waist" min="0" />
+      </div>
+
+      <div class="form-group">
+        <label for="weight">Weight (kg)</label>
+        <input type="number" id="weight" min="0" />
+      </div>
+      <div class="form-group">
+        <label for="height">Height (cm)</label>
+        <input type="number" id="height" min="0" />
+      </div>
+      <div class="form-group">
+        <label>BMI</label>
+        <input type="text" id="bmi" readonly />
+      </div>
+      <div class="form-group">
+        <label for="triglycerides_ms">Triglycerides (mg/dL) <span class="normal-range">(N: &lt;150)</span></label>
+        <input type="number" id="triglycerides_ms" min="0" />
+      </div>
+      <div class="form-group">
+        <label for="hdl_ms">HDL (mg/dL) <span class="normal-range">(N: ≥40 ♂, ≥50 ♀)</span></label>
+        <input type="number" id="hdl_ms" min="0" />
+      </div>
+      <div class="form-group">
+        <label>Blood Pressure <span class="normal-range">(N: &lt;130/&lt;85)</span></label>
+        <div style="display: flex; gap: 10px;">
+          <input type="number" id="systolic" placeholder="Systolic" min="0" />
+          <input type="number" id="diastolic" placeholder="Diastolic" min="0" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="glucose">Fasting Glucose (mg/dL) <span class="normal-range">(N: &lt;100)</span></label>
+        <input type="number" id="glucose" min="0" />
+      </div>
+    </div>
+  </div>
+
+  <button class="action-btn" id="calculateMetabolicBtn">Calculate Metabolic Syndrome</button>
+  <div id="metabolicResult" class="result-box">Metabolic Syndrome: Not assessed</div>
+
+  <div class="navigation">
+    <button class="nav-btn" id="prevBtn5">Previous</button>
+    <button class="nav-btn right" id="nextBtn5">Next</button>
+  </div>
+</section>
+
+<script>
+  // Dynamic show/hide of waist and BMI fields
+  document.addEventListener("DOMContentLoaded", () => {
+    const waistField = document.getElementById('waistField');
+    const bmiFields = ['weight', 'height', 'bmi'].map(id => document.getElementById(id).closest('.form-group'));
+
+    const showWaist = () => {
+      waistField.style.display = 'block';
+      bmiFields.forEach(el => el.style.display = 'none');
+    };
+
+    const showBMI = () => {
+      waistField.style.display = 'none';
+      bmiFields.forEach(el => el.style.display = 'block');
+    };
+
+    // Initial state
+    showWaist();
+
+    document.getElementById('useWaistOption').addEventListener('click', showWaist);
+    document.getElementById('useBMIOption').addEventListener('click', showBMI);
+  });
+</script>
+
+
+<script>
+  const dlqiFormUrl = "https://dlqqqq.tiiny.site/";
+
+  function openDLQIForm() {
+    window.open(dlqiFormUrl, "_blank");
+  }
+
+  function copyDLQILink() {
+    navigator.clipboard.writeText(dlqiFormUrl).then(() => {
+      document.getElementById("linkCopiedMessage").style.display = "block";
+    });
+  }
+</script>
+
+    <!-- Step 6: Conclusion -->
+    <section id="step6" class="section" aria-labelledby="step6-heading">
+      <h2 id="step6-heading">Step 6: Conclusion</h2>
+      <div id="summary" class="summary-container">
+        <!-- Summary will be generated here -->
+      </div>
+      <div class="navigation">
+        <button class="nav-btn" id="prevBtn6">Previous</button>
+        <button class="nav-btn primary right" id="printBtn">Finish &amp; Print</button>
+      </div>
+    </section>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
